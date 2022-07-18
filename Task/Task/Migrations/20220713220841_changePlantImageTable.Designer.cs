@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Task.DAL;
+using Task_MVC.DAL;
 
-namespace Task.Migrations
+namespace Task_MVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     [Migration("20220713220841_changePlantImageTable")]

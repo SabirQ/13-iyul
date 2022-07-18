@@ -1,6 +1,6 @@
-﻿using Task.Models.Base;
+﻿using Task_MVC.Models.Base;
 
-namespace Task.Models
+namespace Task_MVC.Models
 {
     public class PlantSize:BaseEntity
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Task.Models;
+using Task_MVC.Models;
 
-namespace Task.ViewModels
+namespace Task_MVC.ViewModels
 {
     public class HomeVM
     {

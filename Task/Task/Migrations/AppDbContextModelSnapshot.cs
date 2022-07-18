@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Task.DAL;
+using Task_MVC.DAL;
 
-namespace Task.Migrations
+namespace Task_MVC.Migrations
 {
     [DbContext(typeof(AppDbContext))]
     partial class AppDbContextModelSnapshot : ModelSnapshot
@@ -19,7 +19,7 @@ namespace Task.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Task.Models.Category", b =>
+            modelBuilder.Entity("Task_MVC.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -34,7 +34,7 @@ namespace Task.Migrations
                     b.ToTable("Categories");
                 });
 
-            modelBuilder.Entity("Task.Models.Color", b =>
+            modelBuilder.Entity("Task_MVC.Models.Color", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -49,7 +49,7 @@ namespace Task.Migrations
                     b.ToTable("Colors");
                 });
 
-            modelBuilder.Entity("Task.Models.Plant", b =>
+            modelBuilder.Entity("Task_MVC.Models.Plant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace Task.Migrations
                     b.ToTable("Plants");
                 });
 
-            modelBuilder.Entity("Task.Models.PlantCategory", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantCategory", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -100,7 +100,7 @@ namespace Task.Migrations
                     b.ToTable("PlantCategories");
                 });
 
-            modelBuilder.Entity("Task.Models.PlantColor", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantColor", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -122,7 +122,7 @@ namespace Task.Migrations
                     b.ToTable("PlantColors");
                 });
 
-            modelBuilder.Entity("Task.Models.PlantImage", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -148,7 +148,7 @@ namespace Task.Migrations
                     b.ToTable("PlantImages");
                 });
 
-            modelBuilder.Entity("Task.Models.PlantInformation", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantInformation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -169,7 +169,7 @@ namespace Task.Migrations
                     b.ToTable("PlantInformations");
                 });
 
-            modelBuilder.Entity("Task.Models.PlantSize", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantSize", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -191,7 +191,7 @@ namespace Task.Migrations
                     b.ToTable("PlantSizes");
                 });
 
-            modelBuilder.Entity("Task.Models.PlantTag", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantTag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -213,7 +213,29 @@ namespace Task.Migrations
                     b.ToTable("PlantTags");
                 });
 
-            modelBuilder.Entity("Task.Models.Size", b =>
+            modelBuilder.Entity("Task_MVC.Models.Setting", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Key")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Key")
+                        .IsUnique()
+                        .HasFilter("[Key] IS NOT NULL");
+
+                    b.ToTable("Settings");
+                });
+
+            modelBuilder.Entity("Task_MVC.Models.Size", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -228,7 +250,7 @@ namespace Task.Migrations
                     b.ToTable("Sizes");
                 });
 
-            modelBuilder.Entity("Task.Models.Slider", b =>
+            modelBuilder.Entity("Task_MVC.Models.Slider", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -258,7 +280,7 @@ namespace Task.Migrations
                     b.ToTable("Sliders");
                 });
 
-            modelBuilder.Entity("Task.Models.Tag", b =>
+            modelBuilder.Entity("Task_MVC.Models.Tag", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -273,78 +295,78 @@ namespace Task.Migrations
                     b.ToTable("Tags");
                 });
 
-            modelBuilder.Entity("Task.Models.Plant", b =>
+            modelBuilder.Entity("Task_MVC.Models.Plant", b =>
                 {
-                    b.HasOne("Task.Models.PlantInformation", "PlantInformation")
+                    b.HasOne("Task_MVC.Models.PlantInformation", "PlantInformation")
                         .WithMany("Plants")
                         .HasForeignKey("PlantInformationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Task.Models.PlantCategory", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantCategory", b =>
                 {
-                    b.HasOne("Task.Models.Category", "Category")
+                    b.HasOne("Task_MVC.Models.Category", "Category")
                         .WithMany("PlantCategories")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Task.Models.Plant", "Plant")
+                    b.HasOne("Task_MVC.Models.Plant", "Plant")
                         .WithMany("PlantCategories")
                         .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Task.Models.PlantColor", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantColor", b =>
                 {
-                    b.HasOne("Task.Models.Color", "Color")
+                    b.HasOne("Task_MVC.Models.Color", "Color")
                         .WithMany("PlantColors")
                         .HasForeignKey("ColorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Task.Models.Plant", "Plant")
+                    b.HasOne("Task_MVC.Models.Plant", "Plant")
                         .WithMany("PlantColors")
                         .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Task.Models.PlantImage", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantImage", b =>
                 {
-                    b.HasOne("Task.Models.Plant", "Plant")
+                    b.HasOne("Task_MVC.Models.Plant", "Plant")
                         .WithMany("PlantImages")
                         .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Task.Models.PlantSize", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantSize", b =>
                 {
-                    b.HasOne("Task.Models.Plant", "Plant")
+                    b.HasOne("Task_MVC.Models.Plant", "Plant")
                         .WithMany("PlantSizes")
                         .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Task.Models.Size", "Size")
+                    b.HasOne("Task_MVC.Models.Size", "Size")
                         .WithMany("PlantSizes")
                         .HasForeignKey("SizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Task.Models.PlantTag", b =>
+            modelBuilder.Entity("Task_MVC.Models.PlantTag", b =>
                 {
-                    b.HasOne("Task.Models.Plant", "Plant")
+                    b.HasOne("Task_MVC.Models.Plant", "Plant")
                         .WithMany("PlantTags")
                         .HasForeignKey("PlantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Task.Models.Tag", "Tag")
+                    b.HasOne("Task_MVC.Models.Tag", "Tag")
                         .WithMany("PlantTags")
                         .HasForeignKey("TagId")
                         .OnDelete(DeleteBehavior.Cascade)

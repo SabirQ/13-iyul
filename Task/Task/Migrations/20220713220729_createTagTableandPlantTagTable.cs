@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace Task.Migrations
+namespace Task_MVC.Migrations
 {
     public partial class createTagTableandPlantTagTable : Migration
     {

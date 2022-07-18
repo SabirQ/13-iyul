@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Task.Models;
+using Task_MVC.Models;
 
-namespace Task.DAL
+namespace Task_MVC.DAL
 {
     public class AppDbContext:DbContext
     {
@@ -24,6 +24,7 @@ namespace Task.DAL
         public DbSet<Size> Sizes { get; set; }
         public DbSet<PlantColor> PlantColors { get; set; }
         public DbSet<PlantSize> PlantSizes { get; set; }
+        public DbSet<Setting> Settings { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -35,6 +36,7 @@ namespace Task.DAL
                 item.SetColumnType("decimal(6,2)");
                 //item.SetDefaultValue(20.5m);
             }
+            modelBuilder.Entity<Setting>().HasIndex(p => p.Key).IsUnique();
             base.OnModelCreating(modelBuilder);
         }
     }

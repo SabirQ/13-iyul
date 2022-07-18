@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using Task.DAL;
-using Task.ViewModels;
+using Task_MVC.DAL;
+using Task_MVC.ViewModels;
 
-namespace Task.Controllers
+namespace Task_MVC.Controllers
 {
     public class HomeController:Controller
     {

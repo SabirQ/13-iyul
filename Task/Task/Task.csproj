@@ -9,6 +9,8 @@
     <Compile Remove="Migrations\20220713233612_createPlantColorTableandPlantSizeTable.Designer.cs" />
     <Compile Remove="Migrations\20220713235107_changeColorTableandSizeTable.cs" />
     <Compile Remove="Migrations\20220713235107_changeColorTableandSizeTable.Designer.cs" />
+    <Compile Remove="Migrations\20220718002333_createSettingsTable.cs" />
+    <Compile Remove="Migrations\20220718002333_createSettingsTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +20,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
 </Project>

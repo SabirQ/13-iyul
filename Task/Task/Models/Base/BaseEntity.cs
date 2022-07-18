@@ -1,4 +1,4 @@
-﻿namespace Task.Models.Base
+﻿namespace Task_MVC.Models.Base
 {
     public class BaseEntity
     {

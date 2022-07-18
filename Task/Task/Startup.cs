@@ -9,9 +9,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Task.DAL;
+using Task_MVC.Service;
+using Task_MVC.DAL;
 
-namespace Task
+namespace Task_MVC
 {
     public class Startup
     {
@@ -30,6 +31,9 @@ namespace Task
             {
                 option.UseSqlServer(_configuration.GetConnectionString("Default"));
             });
+            services.AddScoped<LayoutService>();
+
+            services.AddHttpContextAccessor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
