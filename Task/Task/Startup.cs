@@ -50,7 +50,11 @@ namespace Task_MVC
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    "defualt", 
+                name: "areas",
+                pattern: "{area:exists}/{controller=dashboard}/{action=Index}/{id?}"
+         );
+                endpoints.MapControllerRoute(
+                    "default",
                     "{controller=home}/{action=index}/{id?}"
                     );
             });

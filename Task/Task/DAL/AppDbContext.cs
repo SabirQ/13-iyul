@@ -34,10 +34,14 @@ namespace Task_MVC.DAL
                 )
             {
                 item.SetColumnType("decimal(6,2)");
-                //item.SetDefaultValue(20.5m);
+               
             }
             modelBuilder.Entity<Setting>().HasIndex(p => p.Key).IsUnique();
+            modelBuilder.Entity<Category>().HasIndex(c => c.Name).IsUnique();
+            modelBuilder.Entity<Color>().HasIndex(c => c.Name).IsUnique();
+            modelBuilder.Entity<Size>().HasIndex(s => s.Name).IsUnique();
             base.OnModelCreating(modelBuilder);
+            
         }
     }
 }
