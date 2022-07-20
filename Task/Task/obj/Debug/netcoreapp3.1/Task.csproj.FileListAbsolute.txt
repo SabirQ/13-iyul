@@ -164,3 +164,6 @@ C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\De
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Category\Detail.cshtml.g.cs
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Color\Detail.cshtml.g.cs
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Size\Detail.cshtml.g.cs
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Plant\Index.cshtml.g.cs
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Plant\Create.cshtml.g.cs
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Slider\Update.cshtml.g.cs

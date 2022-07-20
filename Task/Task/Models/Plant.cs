@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using Task_MVC.Models.Base;
 
 namespace Task_MVC.Models
@@ -16,5 +18,21 @@ namespace Task_MVC.Models
         public List<PlantTag> PlantTags { get; set; }
         public List<PlantColor> PlantColors { get; set; }
         public List<PlantSize> PlantSizes { get; set; }
+        [NotMapped]
+        public List<int> CategoryIds { get; set; }
+        [NotMapped]
+        public List<int> TagsIds { get; set; }
+        [NotMapped]
+        public List<int> ColorsIds { get; set; }
+        [NotMapped]
+        public List<int> SizesIds { get; set; }
+
+
+        [NotMapped]
+        public IFormFile MainPhoto { get; set; }
+        [NotMapped]
+        public IFormFile HoverPhoto { get; set; }
+        [NotMapped]
+        public List<IFormFile> Photos { get; set; }
     }
 }
