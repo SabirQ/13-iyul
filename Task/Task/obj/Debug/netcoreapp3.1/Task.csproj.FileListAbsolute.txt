@@ -167,3 +167,11 @@ C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\De
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Plant\Index.cshtml.g.cs
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Plant\Create.cshtml.g.cs
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Slider\Update.cshtml.g.cs
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Areas\ProniaAdmin\Views\Plant\Update.cshtml.g.cs
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Core.dll
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs

@@ -172,5 +172,157 @@ namespace Task.Areas.ProniaAdmin.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+        public async Task<IActionResult> Update(int? id)
+        {
+            ViewBag.Information = _context.PlantInformations.ToList();
+            ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Tags = _context.Tags.ToList();
+            ViewBag.Colors = _context.Colors.ToList();
+            ViewBag.Sizes = _context.Sizes.ToList();
+            if (id == 0 || id is null) return NotFound();
+            Plant plant = await _context.Plants.Include(p => p.PlantCategories).ThenInclude(pc => pc.Category).Include(p=>p.PlantImages).FirstOrDefaultAsync(p => p.Id == id);
+            if (plant is null) return NotFound();
+            return View(plant);
+        }
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> Update(int? id, Plant plant)
+        {
+            ViewBag.Information = _context.PlantInformations.ToList();
+            ViewBag.Categories = _context.Categories.ToList();
+            ViewBag.Tags = _context.Tags.ToList();
+            ViewBag.Colors = _context.Colors.ToList();
+            ViewBag.Sizes = _context.Sizes.ToList();
+
+            Plant existed = await _context.Plants.Include(p => p.PlantCategories).ThenInclude(pc => pc.Category).Include(p => p.PlantImages).FirstOrDefaultAsync(p => p.Id == id);
+            if (existed is null) return NotFound();
+            if (!ModelState.IsValid) {
+                ViewBag.Information = _context.PlantInformations.ToList();
+                ViewBag.Categories = _context.Categories.ToList();
+                ViewBag.Tags = _context.Tags.ToList();
+                ViewBag.Colors = _context.Colors.ToList();
+                ViewBag.Sizes = _context.Sizes.ToList();
+                return View(existed); }
+                
+            if (plant.MainPhoto != null)
+            {
+                if (!plant.MainPhoto.ImageIsOkay(2))
+                {
+                    ViewBag.Information = _context.PlantInformations.ToList();
+                    ViewBag.Categories = _context.Categories.ToList();
+                    ViewBag.Tags = _context.Tags.ToList();
+                    ViewBag.Colors = _context.Colors.ToList();
+                    ViewBag.Sizes = _context.Sizes.ToList();
+                    ModelState.AddModelError("MainPhoto", "Please choose valid image file");
+                    return View(existed);
+                }
+                FileValidator.FileDelete(_env.WebRootPath, "assets/images/website-images", existed.PlantImages.FirstOrDefault(p => p.Primary == true).Name);
+                existed.PlantImages.FirstOrDefault(p => p.Primary == true).Name = await plant.MainPhoto.FileCreate(_env.WebRootPath, "assets/images/website-images");
+            }
+            if (plant.HoverPhoto != null)
+            {
+                if (!plant.HoverPhoto.ImageIsOkay(2))
+                {
+                    ViewBag.Information = _context.PlantInformations.ToList();
+                    ViewBag.Categories = _context.Categories.ToList();
+                    ViewBag.Tags = _context.Tags.ToList();
+                    ViewBag.Colors = _context.Colors.ToList();
+                    ViewBag.Sizes = _context.Sizes.ToList();
+                    ModelState.AddModelError("MainPhoto", "Please choose valid image file");
+                    return View(existed);
+                }
+                FileValidator.FileDelete(_env.WebRootPath, "assets/images/website-images", existed.PlantImages.FirstOrDefault(p => p.Primary == null).Name);
+
+                existed.PlantImages.FirstOrDefault(p => p.Primary == null).Name = await plant.HoverPhoto.FileCreate(_env.WebRootPath, "assets/images/website-images");
+            }
+            if (plant.PlantImageIds == null)
+            {
+                //if (plant.Photos == null)
+                //{
+                    ViewBag.Information = _context.PlantInformations.ToList();
+                    ViewBag.Categories = _context.Categories.ToList();
+                    ViewBag.Tags = _context.Tags.ToList();
+                    ViewBag.Colors = _context.Colors.ToList();
+                    ViewBag.Sizes = _context.Sizes.ToList();
+                    ModelState.AddModelError("Photos", "You have to choose or keep at least 1 Image");
+                    return View(existed);
+                //}
+                //foreach (var item in plant.Photos)
+                //{
+                //    PlantImage other = new PlantImage
+                //    {
+                //        Name = await item.FileCreate(_env.WebRootPath, "assets/images/website-images"),
+                //        Primary = false,
+                //        Alternative = item.FileName,
+                //        Plant = existed
+                //    };
+                //    _context.PlantImages.Add(other);
+                //}
+                //foreach (var item in existed.PlantImages.Where(p => p.Primary == false))
+                //{
+                //    FileValidator.FileDelete(_env.WebRootPath, "assets/images/website-images", item.Name);
+                //    _context.PlantImages.Remove(item);
+                //}
+            }
+            else
+            {
+               
+                foreach (var item in existed.PlantImages.Where(p=>p.Primary==false))
+                {
+                    if (!plant.PlantImageIds.Exists(p=>p==item.Id))
+                    {
+                        FileValidator.FileDelete(_env.WebRootPath, "assets/images/website-images", item.Name);
+                        _context.PlantImages.Remove(item);
+                        
+                    }
+                }
+                    //existed.PlantImages.RemoveAll(e => plant.PlantImageIds.Exists(p => p != e.Id && e.Primary == false));
+                  
+                if (plant.Photos != null)
+                {
+                    foreach (var photo in plant.Photos)
+                    {
+                        if (!photo.ImageIsOkay(2))
+                        {
+                            plant.Photos.Remove(photo);
+                            TempData["FileName"] += photo.FileName + ",";
+                        }
+                        else
+                        {
+                           
+                                PlantImage other = new PlantImage
+                                {
+                                    Name = await photo.FileCreate(_env.WebRootPath, "assets/images/website-images"),
+                                    Primary = false,
+                                    Alternative = photo.FileName,
+                                    Plant = existed
+                                };
+                                _context.PlantImages.Add(other);
+
+                        }
+                    }
+                }
+            }
+            if (plant.CategoryIds!=null)
+            {
+                existed.PlantCategories.Clear();
+                foreach (var item in plant.CategoryIds)
+                {
+                    PlantCategory pCategory = new PlantCategory
+                    {
+
+                        CategoryId = item,
+                        Category = _context.Categories.Find(item),
+                        Plant = existed
+
+                    };
+                    _context.PlantCategories.Add(pCategory);
+                }
+            }
+            
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
+
 }

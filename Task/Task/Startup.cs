@@ -11,6 +11,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Task_MVC.Service;
 using Task_MVC.DAL;
+using Task.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Task_MVC
 {
@@ -31,6 +33,23 @@ namespace Task_MVC
             {
                 option.UseSqlServer(_configuration.GetConnectionString("Default"));
             });
+            services.AddIdentity<AppUser, IdentityRole>(opt =>
+            {
+                opt.Password.RequiredUniqueChars = 3;
+                opt.Password.RequiredLength = 8;
+                opt.Password.RequireNonAlphanumeric = false;
+                opt.Password.RequireDigit = true;
+                opt.Password.RequireUppercase = false;
+                opt.Password.RequireLowercase = false;
+
+                opt.Lockout.MaxFailedAccessAttempts = 5;
+                opt.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(10);
+                opt.Lockout.AllowedForNewUsers = true;
+
+                opt.User.RequireUniqueEmail = false;
+                opt.User.AllowedUserNameCharacters = "qwertyuiopasdfghjklzxcvbnm1234567890_";
+            }).AddDefaultTokenProviders().AddEntityFrameworkStores<AppDbContext>();
+
             services.AddScoped<LayoutService>();
 
             services.AddHttpContextAccessor();
@@ -46,6 +65,8 @@ namespace Task_MVC
 
             app.UseRouting();
             app.UseStaticFiles();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

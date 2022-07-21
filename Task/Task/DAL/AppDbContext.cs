@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using Task.Models;
 using Task_MVC.Models;
 
 namespace Task_MVC.DAL
 {
-    public class AppDbContext:DbContext
+    public class AppDbContext: IdentityDbContext<AppUser>
     {
 
         public AppDbContext(DbContextOptions<AppDbContext> option) : base(option)

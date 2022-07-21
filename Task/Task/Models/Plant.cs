@@ -26,7 +26,8 @@ namespace Task_MVC.Models
         public List<int> ColorsIds { get; set; }
         [NotMapped]
         public List<int> SizesIds { get; set; }
-
+        [NotMapped]
+        public List<int> PlantImageIds { get; set; }
 
         [NotMapped]
         public IFormFile MainPhoto { get; set; }
@@ -34,5 +35,6 @@ namespace Task_MVC.Models
         public IFormFile HoverPhoto { get; set; }
         [NotMapped]
         public List<IFormFile> Photos { get; set; }
+        
     }
 }
