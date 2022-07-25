@@ -175,3 +175,4 @@ C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\bin\De
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Views\Account\Login.cshtml.g.cs
 C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Views\Account\Register.cshtml.g.cs
+C:\Users\sabir\OneDrive\Рабочий стол\All Tasks\13.07\Task\Task\obj\Debug\netcoreapp3.1\Razor\Views\Order\Checkout.cshtml.g.cs

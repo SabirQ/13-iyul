@@ -28,6 +28,7 @@ namespace Task_MVC.Service
 
         public LayoutBasketVM GetBasket()
         {
+
             string basketStr = _http.HttpContext.Request.Cookies["Basket"];
             if (!string.IsNullOrEmpty(basketStr))
             {

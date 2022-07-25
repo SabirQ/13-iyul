@@ -237,8 +237,8 @@ namespace Task.Areas.ProniaAdmin.Controllers
             }
             if (plant.PlantImageIds == null)
             {
-                //if (plant.Photos == null)
-                //{
+                if (plant.Photos == null)
+                {
                     ViewBag.Information = _context.PlantInformations.ToList();
                     ViewBag.Categories = _context.Categories.ToList();
                     ViewBag.Tags = _context.Tags.ToList();
@@ -246,23 +246,23 @@ namespace Task.Areas.ProniaAdmin.Controllers
                     ViewBag.Sizes = _context.Sizes.ToList();
                     ModelState.AddModelError("Photos", "You have to choose or keep at least 1 Image");
                     return View(existed);
-                //}
-                //foreach (var item in plant.Photos)
-                //{
-                //    PlantImage other = new PlantImage
-                //    {
-                //        Name = await item.FileCreate(_env.WebRootPath, "assets/images/website-images"),
-                //        Primary = false,
-                //        Alternative = item.FileName,
-                //        Plant = existed
-                //    };
-                //    _context.PlantImages.Add(other);
-                //}
-                //foreach (var item in existed.PlantImages.Where(p => p.Primary == false))
-                //{
-                //    FileValidator.FileDelete(_env.WebRootPath, "assets/images/website-images", item.Name);
-                //    _context.PlantImages.Remove(item);
-                //}
+                } 
+                foreach (var item in existed.PlantImages.Where(p => p.Primary == false))
+                {
+                    FileValidator.FileDelete(_env.WebRootPath, "assets/images/website-images", item.Name);
+                    _context.PlantImages.Remove(item);
+                }
+                foreach (var item in plant.Photos)
+                {
+                    PlantImage other = new PlantImage
+                    {
+                        Name = await item.FileCreate(_env.WebRootPath, "assets/images/website-images"),
+                        Primary = false,
+                        Alternative = item.FileName,
+                        Plant = existed
+                    };
+                    _context.PlantImages.Add(other);
+                }
             }
             else
             {
@@ -276,7 +276,7 @@ namespace Task.Areas.ProniaAdmin.Controllers
                         
                     }
                 }
-                    //existed.PlantImages.RemoveAll(e => plant.PlantImageIds.Exists(p => p != e.Id && e.Primary == false));
+                 
                   
                 if (plant.Photos != null)
                 {
@@ -303,20 +303,40 @@ namespace Task.Areas.ProniaAdmin.Controllers
                     }
                 }
             }
-            if (plant.CategoryIds!=null)
+            if (plant.CategoryIds==null)
             {
-                existed.PlantCategories.Clear();
-                foreach (var item in plant.CategoryIds)
+                ViewBag.Information = _context.PlantInformations.ToList();
+                ViewBag.Categories = _context.Categories.ToList();
+                ViewBag.Tags = _context.Tags.ToList();
+                ViewBag.Colors = _context.Colors.ToList();
+                ViewBag.Sizes = _context.Sizes.ToList();
+                ModelState.AddModelError("CategoryIds", "You have to choose or keep at least 1 Category");
+                return View(existed);
+                
+            }
+            else
+            {
+                foreach (var item in existed.PlantCategories)
                 {
-                    PlantCategory pCategory = new PlantCategory
+                    if (!plant.CategoryIds.Exists(c => c == item.Id))
                     {
+                        _context.PlantCategories.Remove(item);
+                    }
+                }
+                foreach (int newId in plant.CategoryIds)
+                {
+                    if (!existed.PlantCategories.Exists(c => c.Id == newId))
+                    {
+                        PlantCategory pCategory = new PlantCategory
+                        {
 
-                        CategoryId = item,
-                        Category = _context.Categories.Find(item),
-                        Plant = existed
+                            CategoryId = newId,
+                            Category = _context.Categories.Find(newId),
+                            Plant = existed
 
-                    };
-                    _context.PlantCategories.Add(pCategory);
+                        };
+                        _context.PlantCategories.Add(pCategory);
+                    }
                 }
             }
             

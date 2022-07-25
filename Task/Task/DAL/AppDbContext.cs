@@ -27,6 +27,8 @@ namespace Task_MVC.DAL
         public DbSet<PlantColor> PlantColors { get; set; }
         public DbSet<PlantSize> PlantSizes { get; set; }
         public DbSet<Setting> Settings { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<BasketItem> BasketItems { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

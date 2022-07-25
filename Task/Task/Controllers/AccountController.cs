@@ -10,11 +10,13 @@ namespace Task.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager,RoleManager<IdentityRole> roleManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _roleManager = roleManager;
         }
         public IActionResult Register()
         {
@@ -50,6 +52,7 @@ namespace Task.Controllers
                 }
                 return View();
             }
+            await _userManager.AddToRoleAsync(user, "Member");
             return RedirectToAction("Index", "Home");
         }
         public IActionResult Login()
@@ -79,13 +82,14 @@ namespace Task.Controllers
                 ModelState.AddModelError("", "Username or password is incorrect");
                 return View();
             }
-
+            HttpContext.Response.Cookies.Delete("Basket");
             return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -93,5 +97,14 @@ namespace Task.Controllers
         {
             return Json(User.Identity.IsAuthenticated);
         }
+
+        //public async Task<IActionResult> CreateRoles()
+        //{
+        //    await _roleManager.CreateAsync(new IdentityRole("Member"));
+        //    await _roleManager.CreateAsync(new IdentityRole("Moderator"));
+        //    await _roleManager.CreateAsync(new IdentityRole("Admin"));
+        //    return Content("Yarandi");
+        //}
+        
     }
 }

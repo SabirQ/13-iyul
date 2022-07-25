@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using Task_MVC.ViewModels;
 using Task_MVC.DAL;
 using Task_MVC.Models;
+using Task.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace Task_MVC.Controllers
 {
@@ -14,10 +16,12 @@ namespace Task_MVC.Controllers
     {
 
         private readonly AppDbContext _context;
+        private readonly UserManager<AppUser> _userManager;
 
-        public PlantController(AppDbContext context)
+        public PlantController(AppDbContext context, UserManager<AppUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
         public async Task<IActionResult> Detail(int? id)
         {
@@ -52,49 +56,76 @@ namespace Task_MVC.Controllers
 
             Plant plant = await _context.Plants.FirstOrDefaultAsync(p => p.Id == id);
             if (plant == null) return NotFound();
-            string basketStr = HttpContext.Request.Cookies["Basket"];
-
-            BasketVM basket;
-
-            if (string.IsNullOrEmpty(basketStr))
+            if (User.Identity.IsAuthenticated && User.IsInRole("Member"))
             {
-                basket = new BasketVM();
-                BasketCookieItemVM cookieItem = new BasketCookieItemVM
+                AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+                if (user == null) return NotFound();
+                BasketItem existed = await _context.BasketItems.FirstOrDefaultAsync(b => b.AppUserId == user.Id && b.PlantId == plant.Id);
+                if (existed == null)
                 {
-                    Id = plant.Id,
-                    Quantity = 1
-                };
-                basket.BasketCookieItemVMs = new List<BasketCookieItemVM>();
-                basket.BasketCookieItemVMs.Add(cookieItem);
-                basket.TotalPrice = plant.Price;
-
+                    existed = new BasketItem
+                    {
+                        Plant = plant,
+                        AppUser = user,
+                        Quantity = 1,
+                        Price = plant.Price
+                    };
+                    _context.BasketItems.Add(existed);
+                }
+                else
+                {
+                    existed.Quantity++;
+                }
+                await _context.SaveChangesAsync();
             }
             else
             {
-                basket = JsonConvert.DeserializeObject<BasketVM>(basketStr);
-                BasketCookieItemVM existed = basket.BasketCookieItemVMs.Find(p => p.Id == id);
-                if (existed == null)
+                string basketStr = HttpContext.Request.Cookies["Basket"];
+
+                BasketVM basket;
+
+                if (string.IsNullOrEmpty(basketStr))
                 {
+                    basket = new BasketVM();
                     BasketCookieItemVM cookieItem = new BasketCookieItemVM
                     {
                         Id = plant.Id,
                         Quantity = 1
                     };
+                    basket.BasketCookieItemVMs = new List<BasketCookieItemVM>();
                     basket.BasketCookieItemVMs.Add(cookieItem);
-                    basket.TotalPrice += plant.Price;
+                    basket.TotalPrice = plant.Price;
+
                 }
                 else
                 {
-                    basket.TotalPrice += plant.Price;
-                    existed.Quantity++;
+                    basket = JsonConvert.DeserializeObject<BasketVM>(basketStr);
+                    BasketCookieItemVM existed = basket.BasketCookieItemVMs.Find(p => p.Id == id);
+                    if (existed == null)
+                    {
+                        BasketCookieItemVM cookieItem = new BasketCookieItemVM
+                        {
+                            Id = plant.Id,
+                            Quantity = 1
+                        };
+                        basket.BasketCookieItemVMs.Add(cookieItem);
+                        basket.TotalPrice += plant.Price;
+                    }
+                    else
+                    {
+                        basket.TotalPrice += plant.Price;
+                        existed.Quantity++;
+                    }
                 }
-            }
-            basketStr = JsonConvert.SerializeObject(basket);
+                basketStr = JsonConvert.SerializeObject(basket);
 
-            HttpContext.Response.Cookies.Append("Basket", basketStr);
+                HttpContext.Response.Cookies.Append("Basket", basketStr);
+            }
 
             return RedirectToAction("Index", "Home");
         }
+
+
 
         public IActionResult ShowBasket()
         {

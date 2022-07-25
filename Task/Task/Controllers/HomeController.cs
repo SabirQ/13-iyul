@@ -16,6 +16,7 @@ namespace Task_MVC.Controllers
         }
         public IActionResult Index()
         {
+            
             HomeVM model = new HomeVM
             {
                 Sliders = _context.Sliders.ToList(),
